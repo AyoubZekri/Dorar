@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
     final ThemeController themeController = Get.put(ThemeController());
     
     return Obx(() => GetMaterialApp(
-      defaultTransition: Transition.cupertino,
+      defaultTransition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 400),
       navigatorObservers: [routeObserver],
       debugShowCheckedModeBanner: false,
