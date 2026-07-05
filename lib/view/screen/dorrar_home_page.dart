@@ -46,10 +46,14 @@ class DorrarHomePage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Icon(
-                        Icons.menu_book,
-                        size: 60,
-                        color: isDark ? Colors.white : const Color(0xFF114358),
+                      child: ClipOval(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Image.asset(
+                            'assets/images/Logo.png',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
