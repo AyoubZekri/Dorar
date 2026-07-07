@@ -67,7 +67,7 @@ class DorrarHomePage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'في مقرأ الإمام نافع',
+                      'في أصل مقرأ الإمام نافع',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w600,
