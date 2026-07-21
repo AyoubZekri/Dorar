@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../core/functions/Snacpar.dart';
 import 'ThemeController.dart';
 import '../data/datasource/local/saved_verses_data.dart';
@@ -10,11 +11,20 @@ class DorrarVersesController extends GetxController {
   var favoriteVerses = <int>[].obs;
   SavedVersesData savedVersesData = SavedVersesData();
 
+  final AudioPlayer audioPlayer = AudioPlayer();
+  var currentlyPlayingId = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
     chapter = Get.arguments ?? {};
     loadFavorites();
+
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      if (state == PlayerState.completed) {
+        currentlyPlayingId.value = 0;
+      }
+    });
   }
 
   void loadFavorites() async {
@@ -328,5 +338,26 @@ class DorrarVersesController extends GetxController {
     if (fontSize.value > 14.0) {
       fontSize.value -= 2.0;
     }
+  }
+
+  void toggleAudio(int verseId) async {
+    if (currentlyPlayingId.value == verseId) {
+      await audioPlayer.pause();
+      currentlyPlayingId.value = 0;
+    } else {
+      try {
+        await rootBundle.load('assets/Voices/$verseId.wav');
+        await audioPlayer.play(AssetSource('Voices/$verseId.wav'));
+        currentlyPlayingId.value = verseId;
+      } catch (e) {
+        showSnackbar('تنبيه', 'التلاوة غير متوفرة لهذا المقطع', Colors.orange);
+      }
+    }
+  }
+
+  @override
+  void onClose() {
+    audioPlayer.dispose();
+    super.onClose();
   }
 }

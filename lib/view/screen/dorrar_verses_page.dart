@@ -183,23 +183,40 @@ class DorrarVersesPage extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: () => controller.copyVerse(
-                                              verse['sadr'] ?? '',
-                                              verse['ajez'] ?? ''),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(6.0),
-                                            child: Icon(Icons.copy_rounded,
-                                                size: 20,
-                                                color: isDark
-                                                    ? Colors.white54
-                                                    : Colors.grey[600]),
+                                      Row(
+                                        children: [
+                                          Obx(() {
+                                            bool isPlaying = controller.currentlyPlayingId.value == verse['id'];
+                                            return InkWell(
+                                              onTap: () => controller.toggleAudio(verse['id']),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(6.0),
+                                                child: Icon(
+                                                  isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill,
+                                                  size: 24,
+                                                  color: isPlaying
+                                                      ? Colors.green
+                                                      : (isDark ? Colors.white54 : const Color(0xFF114358).withOpacity(0.7)),
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                          const SizedBox(width: 8),
+                                          InkWell(
+                                            onTap: () => controller.copyVerse(
+                                                verse['sadr'] ?? '',
+                                                verse['ajez'] ?? ''),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(6.0),
+                                              child: Icon(Icons.copy_rounded,
+                                                  size: 20,
+                                                  color: isDark
+                                                      ? Colors.white54
+                                                      : Colors.grey[600]),
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Obx(() {
+                                          const SizedBox(width: 8),
+                                          Obx(() {
                                           bool isFav = controller.favoriteVerses
                                               .contains(verse['id']);
                                           return Row(
