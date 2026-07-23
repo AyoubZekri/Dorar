@@ -9,13 +9,18 @@ class DorrarOverviewPage extends StatelessWidget {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF111827) : const Color(0xFFF5F7FA),
+      backgroundColor:
+          isDark ? const Color(0xFF111827) : const Color(0xFFF5F7FA),
       appBar: AppBar(
         title: const Text(
           'نبذة عن الكتاب',
-          style: TextStyle(fontFamily: 'Cairo', fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+              fontFamily: 'Cairo',
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
         ),
-        backgroundColor: isDark ? const Color(0xFF1F2937) : const Color(0xFF114358),
+        backgroundColor:
+            isDark ? const Color(0xFF1F2937) : const Color(0xFF114358),
         centerTitle: true,
         elevation: 0,
         leading: IconButton(
@@ -34,7 +39,7 @@ class DorrarOverviewPage extends StatelessWidget {
               padding: const EdgeInsets.all(25),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: isDark 
+                  colors: isDark
                       ? [const Color(0xFF1F2937), const Color(0xFF374151)]
                       : [const Color(0xFF114358), const Color(0xFF1E6C8E)],
                   begin: Alignment.topLeft,
@@ -90,7 +95,8 @@ class DorrarOverviewPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(20),
@@ -108,14 +114,14 @@ class DorrarOverviewPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
-            
+
             // Stats Row
             Row(
               children: [
                 Expanded(
                   child: _buildStatCard(
                     title: 'عدد الأبواب',
-                    value: '21',
+                    value: '25',
                     icon: Icons.list_alt,
                     isDark: isDark,
                   ),
@@ -124,7 +130,7 @@ class DorrarOverviewPage extends StatelessWidget {
                 Expanded(
                   child: _buildStatCard(
                     title: 'عدد الأبيات',
-                    value: '262',
+                    value: '276',
                     icon: Icons.format_list_numbered_rtl,
                     isDark: isDark,
                   ),
@@ -137,7 +143,11 @@ class DorrarOverviewPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard({required String title, required String value, required IconData icon, required bool isDark}) {
+  Widget _buildStatCard(
+      {required String title,
+      required String value,
+      required IconData icon,
+      required bool isDark}) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -153,7 +163,9 @@ class DorrarOverviewPage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(icon, size: 40, color: isDark ? Colors.white70 : const Color(0xFF1E6C8E)),
+          Icon(icon,
+              size: 40,
+              color: isDark ? Colors.white70 : const Color(0xFF1E6C8E)),
           const SizedBox(height: 10),
           Text(
             value,

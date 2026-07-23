@@ -8,6 +8,8 @@ class SavedVerseCard extends StatelessWidget {
   final VoidCallback onEditNote;
   final VoidCallback onCopy;
   final VoidCallback onRemove;
+  final VoidCallback onToggleAudio;
+  final bool isPlaying;
 
   const SavedVerseCard({
     Key? key,
@@ -18,6 +20,8 @@ class SavedVerseCard extends StatelessWidget {
     required this.onEditNote,
     required this.onCopy,
     required this.onRemove,
+    required this.onToggleAudio,
+    required this.isPlaying,
   }) : super(key: key);
 
   @override
@@ -67,22 +71,25 @@ class SavedVerseCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Text(
-                        '${verse['chapter_title'] ?? 'الباب'} | رقم ${verse['verse_id']}',
-                        style: TextStyle(
-                          fontFamily: 'Cairo',
-                          color: isDark ? Colors.white70 : const Color(0xFF114358),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Text(
+                          '${verse['chapter_title'] ?? 'الباب'} | رقم ${verse['verse_id']}',
+                          style: TextStyle(
+                            fontFamily: 'Cairo',
+                            color: isDark ? Colors.white70 : const Color(0xFF114358),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ),
+                    const SizedBox(width: 8),
                     Row(
                       children: [
                         if (hasNote)
@@ -93,6 +100,19 @@ class SavedVerseCard extends StatelessWidget {
                               child: Icon(Icons.note_alt_rounded, size: 22, color: Colors.orangeAccent),
                             ),
                           ),
+                        InkWell(
+                          onTap: onToggleAudio,
+                          child: Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: Icon(
+                              isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill,
+                              size: 24,
+                              color: isPlaying
+                                  ? Colors.green
+                                  : (isDark ? Colors.white54 : const Color(0xFF114358).withOpacity(0.7)),
+                            ),
+                          ),
+                        ),
                         InkWell(
                           onTap: onEditNote,
                           child: Padding(

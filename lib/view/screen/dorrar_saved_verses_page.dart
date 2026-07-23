@@ -66,15 +66,20 @@ class DorrarSavedVersesPage extends StatelessWidget {
                         var verse = controller.savedVerses[index];
                         String note = verse['note'] ?? '';
 
-                        return SavedVerseCard(
-                          verse: verse,
-                          isDark: isDark,
-                          currentFontSize: currentFontSize,
-                          onShowNote: () => controller.showNoteDialog(note),
-                          onEditNote: () => controller.editNoteDialog(verse),
-                          onCopy: () => controller.copyVerse(verse['sadr'] ?? '', verse['ajez'] ?? ''),
-                          onRemove: () => controller.removeVerse(verse['id']),
-                        );
+                        return Obx(() {
+                          bool isPlaying = controller.currentlyPlayingId.value == verse['verse_id'];
+                          return SavedVerseCard(
+                            verse: verse,
+                            isDark: isDark,
+                            currentFontSize: currentFontSize,
+                            isPlaying: isPlaying,
+                            onToggleAudio: () => controller.toggleAudio(verse['verse_id']),
+                            onShowNote: () => controller.showNoteDialog(note),
+                            onEditNote: () => controller.editNoteDialog(verse),
+                            onCopy: () => controller.copyVerse(verse['sadr'] ?? '', verse['ajez'] ?? ''),
+                            onRemove: () => controller.removeVerse(verse['id']),
+                          );
+                        });
                       },
                     ),
       );

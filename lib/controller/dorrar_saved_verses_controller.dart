@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../data/datasource/local/saved_verses_data.dart';
 import '../core/functions/Snacpar.dart';
 import 'ThemeController.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class DorrarSavedVersesController extends GetxController {
   final SavedVersesData savedVersesData = SavedVersesData();
@@ -11,10 +12,19 @@ class DorrarSavedVersesController extends GetxController {
   var isLoading = true.obs;
   var fontSize = 22.0.obs;
 
+  final AudioPlayer audioPlayer = AudioPlayer();
+  var currentlyPlayingId = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
     loadSavedVerses();
+
+    audioPlayer.onPlayerStateChanged.listen((state) {
+      if (state == PlayerState.completed) {
+        currentlyPlayingId.value = 0;
+      }
+    });
   }
 
   void loadSavedVerses() async {
@@ -279,5 +289,26 @@ class DorrarSavedVersesController extends GetxController {
   void toggleTheme() {
     ThemeController themeController = Get.find();
     themeController.toggleTheme(!themeController.isDarkMode);
+  }
+
+  void toggleAudio(int verseId) async {
+    if (currentlyPlayingId.value == verseId) {
+      await audioPlayer.pause();
+      currentlyPlayingId.value = 0;
+    } else {
+      try {
+        await rootBundle.load('assets/Voices/$verseId.wav');
+        await audioPlayer.play(AssetSource('Voices/$verseId.wav'));
+        currentlyPlayingId.value = verseId;
+      } catch (e) {
+        showSnackbar('تنبيه', 'التلاوة غير متوفرة لهذا المقطع', Colors.orange);
+      }
+    }
+  }
+
+  @override
+  void onClose() {
+    audioPlayer.dispose();
+    super.onClose();
   }
 }
